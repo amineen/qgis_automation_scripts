@@ -66,7 +66,8 @@ for branch_id in non_deadend_ids:
         print(f'{span_number} {angle_txt}')
 
         pole_number = feature['pole_number']
-        angles[pole_number] = angle_txt
+        if pole_number not in angles:
+            angles[pole_number] = angle_txt
 
         # line_azimuth = feature['azimuth_line']
         # next_line_azimuth = feature['azimuth_next_line']
