@@ -5,7 +5,7 @@ from qgis.core import (QgsCoordinateReferenceSystem, QgsCoordinateTransform, Qgs
 from PyQt5.QtCore import QVariant
 
 
-def calculate_points_distance(totalDistance: float, min_distance=25, max_distance=40.9):
+def calculate_points_distance(totalDistance: float, min_distance=30, max_distance=54.9):
 
     if totalDistance < max_distance:
         # If totalDistance is less than min_distance,
@@ -26,14 +26,14 @@ def calculate_points_distance(totalDistance: float, min_distance=25, max_distanc
     return number_of_points, distance_between_points
 
 
-pointLayer = QgsProject.instance().mapLayersByName('ntatumbila_cp_8m')[0]
+pointLayer = QgsProject.instance().mapLayersByName('lv_poles_nalusanga')[0]
 
 newPointLayer = QgsVectorLayer(
-    'Point?crs=EPSG:4326', 'new_pole_points_npec', 'memory')
+    'Point?crs=EPSG:4326', 'new_pole_points_nlsng', 'memory')
 
 # create a memory layer to store lines
 line_layer = QgsVectorLayer(
-    "LineString?crs=epsg:4326", "line_layer_npec", "memory")
+    "LineString?crs=epsg:4326", "line_layer_nlsng", "memory")
 line_layer_dp = line_layer.dataProvider()
 point_layer_dp = newPointLayer.dataProvider()
 fields = QgsFields()
@@ -121,7 +121,7 @@ for index, feature in enumerate(features):
         feature.geometry().asPoint(), connecting_cp.geometry().asPoint())
 
     number_of_poles, distance = calculate_points_distance(
-        totalDistance, 25, 40.9)
+        totalDistance, 30, 54.9)
 
     d = distance
 
