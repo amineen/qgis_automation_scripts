@@ -26,14 +26,14 @@ def calculate_points_distance(totalDistance: float, min_distance=30, max_distanc
     return number_of_points, distance_between_points
 
 
-pointLayer = QgsProject.instance().mapLayersByName('lv_poles_nalusanga')[0]
+pointLayer = QgsProject.instance().mapLayersByName('ntatumbila_cp_8m')[0]
 
 newPointLayer = QgsVectorLayer(
-    'Point?crs=EPSG:4326', 'new_pole_points_nlsng', 'memory')
+    'Point?crs=EPSG:4326', 'new_pole_points_ntbl', 'memory')
 
 # create a memory layer to store lines
 line_layer = QgsVectorLayer(
-    "LineString?crs=epsg:4326", "line_layer_nlsng", "memory")
+    "LineString?crs=epsg:4326", "line_layer_ntbl", "memory")
 line_layer_dp = line_layer.dataProvider()
 point_layer_dp = newPointLayer.dataProvider()
 fields = QgsFields()
@@ -115,13 +115,20 @@ for index, feature in enumerate(features):
     distanceArea.setEllipsoid('WGS84')
     distanceArea.setSourceCrs(QgsCoordinateReferenceSystem(
         4326), QgsProject.instance().transformContext())
-
+    control_pole = feature['control_pole']
+    cp_number = feature['connecting_cp']
     # Distance between points
     totalDistance = distanceArea.measureLine(
         feature.geometry().asPoint(), connecting_cp.geometry().asPoint())
 
-    number_of_poles, distance = calculate_points_distance(
-        totalDistance, 30, 54.9)
+    # if control_pole start with SCP, pass 40 and 54.9 as min and max distance respectively else pass 25 and 40.9
+
+    if control_pole.startswith('SCP'):
+        number_of_poles, distance = calculate_points_distance(
+            totalDistance, 40, 56.9)
+    else:
+        number_of_poles, distance = calculate_points_distance(
+            totalDistance, 25, 41.9)
 
     d = distance
 
@@ -131,8 +138,7 @@ for index, feature in enumerate(features):
     # create a new point feature from connecting_cp and initialize a list of branch_points
     new_point = QgsPointXY(x1, y1)
     new_point = transformToSrc.transform(new_point)
-    control_pole = feature['control_pole']
-    cp_number = feature['connecting_cp']
+
     # create branch_points as list of dictionaries
     branch_id = f'{control_pole} - {cp_number}'
     branch_points[branch_id] = []
