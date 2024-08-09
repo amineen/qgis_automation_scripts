@@ -4,12 +4,19 @@ from qgis.PyQt.QtCore import QVariant
 from math import degrees
 
 
-layer_name = 'lv_lines_ntatumbila'
+layer_name = 'lv_lines_ntatumbila_v2'
 angle_field_name = 'line_angle'
 layer = QgsProject.instance().mapLayersByName(layer_name)[0]
 
 features = [feature for feature in layer.getFeatures()]
-features.sort(key=lambda x: x['span_number'])
+try:
+    features.sort(key=lambda x: x['span_number'])
+except KeyError as e:
+    print(f"Error: Missing attribute 'span_number' in feature: {e}")
+except TypeError as e:
+    print(f"Error: Invalid type for 'span_number' in feature: {e}")
+except Exception as e:
+    print(f"Unexpected error: {e}")
 
 angles = {}
 
@@ -42,13 +49,19 @@ for branch_id in non_deadend_ids:
         next_line_list = list(
             filter(lambda f: f['span_number'] == span_number + 1, features))
 
-        next_line_start_point = next_line_list[0].geometry().asPolyline()[0]
-        next_line_end_point = next_line_list[0].geometry().asPolyline()[1]
-        # get next line azimuth
-        next_line_azimuth = next_line_start_point.azimuth(next_line_end_point)
-        # calculate angle
-        diff_azimuth = line_azimuth - next_line_azimuth
-        angle = diff_azimuth
+        if next_line_list or len(next_line_list) > 0:
+            next_line_start_point = next_line_list[0].geometry().asPolyline()[
+                0]
+            next_line_end_point = next_line_list[0].geometry().asPolyline()[1]
+            # get next line azimuth
+            next_line_azimuth = next_line_start_point.azimuth(
+                next_line_end_point)
+            # calculate angle
+            diff_azimuth = line_azimuth - next_line_azimuth
+            angle = diff_azimuth
+        else:
+            angle = 0
+
         if angle > 180:
             angle -= 360
         elif angle < -180:
