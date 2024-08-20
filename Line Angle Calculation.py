@@ -4,7 +4,7 @@ from qgis.PyQt.QtCore import QVariant
 from math import degrees
 
 
-layer_name = 'lv_lines_ntatumbila_v2'
+layer_name = 'lv_lines_ntatumbila_v3'
 angle_field_name = 'line_angle'
 layer = QgsProject.instance().mapLayersByName(layer_name)[0]
 
