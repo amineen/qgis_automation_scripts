@@ -1,0 +1,56 @@
+{
+    "author": "Aaron Mineen",
+    "exported_at": "2024-08-09T15:25:12",
+    "expressions": [
+        {
+            "description": "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n<html><head><style type=\"text/css\">\np, li { white-space: pre-wrap; }\n</style></head><body style=\" font-family:'MS Shell Dlg 2'; font-size:7.8pt; font-weight:400; font-style:normal;\">\n<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>",
+            "expression": "'<html><body>' ||\r\n'<span style=\"color:black;\">' || \"pole_number\" || '</span>' ||\r\nCASE \r\n  WHEN \"line_angle\" = 'deadend' THEN ''\r\n  ELSE ' | ' || '<span style=\"color:black;\">' || \"line_angle\" || '</span>'\r\nEND ||\r\n'</body></html>'",
+            "group": "user",
+            "name": "'<html><body>' || '<span style=\"color:black;\">' || \"pole_number\" || '<span>' || CASE WHEN \"line_angle\" = 'deadend' THEN '' ELSE ' | ' || '<span style=\"color:black;\">' || \"line_angle\" || '<span>' END || '<body><html>'",
+            "type": "expression"
+        },
+        {
+            "description": "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n<html><head><style type=\"text/css\">\np, li { white-space: pre-wrap; }\n</style></head><body style=\" font-family:'MS Shell Dlg 2'; font-size:7.8pt; font-weight:400; font-style:normal;\">\n<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>",
+            "expression": "CASE\r\n  WHEN \"total_connections\" IS NULL THEN NULL\r\n  WHEN \"total_connections\" = 1 THEN '1xOne-meter Enclosure'\r\n  WHEN \"total_connections\" = 2 THEN '2xOne-meter Enclosure'\r\n  WHEN \"total_connections\" = 3 THEN '3xOne-meter Enclosure'\r\n  WHEN \"total_connections\" = 4 THEN '1xFour-meter Enclosure'\r\n  ELSE\r\n    concat(\r\n      to_string(floor(\"total_connections\" / 4.0)), 'xFour-meter Enclosure', \r\n      CASE \r\n        WHEN \"total_connections\" % 4 = 0 THEN ''\r\n        ELSE concat(' and ', to_string(\"total_connections\" % 4), 'xOne-meter Enclosure')\r\n      END\r\n    )\r\nEND",
+            "group": "user",
+            "name": "CASE WHEN \"total_connections\" IS NULL THEN NULL WHEN \"total_connections\" = 1 THEN '1xOne-meter Enclosure' WHEN \"total_connections\" = 2 THEN '2xOne-meter Enclosure' WHEN \"total_connections\" = 3 THEN '3xOne-meter Enclosure' WHEN \"total_connections\" = 4 THEN '1xFour-meter Enclosure' ELSE concat( to_string(floor(\"total_connections\" 4.0)), 'xFour-meter Enclosure', CASE WHEN \"total_connections\" % 4 = 0 THEN '' ELSE concat(' and ', to_string(\"total_connections\" % 4), 'xOne-meter Enclosure') END ) END",
+            "type": "expression"
+        },
+        {
+            "description": "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n<html><head><style type=\"text/css\">\np, li { white-space: pre-wrap; }\n</style></head><body style=\" font-family:'MS Shell Dlg 2'; font-size:7.8pt; font-weight:400; font-style:normal;\">\n<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>",
+            "expression": "aggregate(\r\n    layer:='connection_distance',\r\n    aggregate:='sum',\r\n    expression:=\"count\",\r\n    filter:=\"HubName\" = attribute(@parent, 'pole_number')\r\n)",
+            "group": "user",
+            "name": "aggregate( layer:='connection_distance', aggregate:='sum', expression:=\"count\", filter:=\"HubName\" = attribute(@parent, 'pole_number') )",
+            "type": "expression"
+        },
+        {
+            "description": "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n<html><head><style type=\"text/css\">\np, li { white-space: pre-wrap; }\n</style></head><body style=\" font-family:'MS Shell Dlg 2'; font-size:7.8pt; font-weight:400; font-style:normal;\">\n<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>",
+            "expression": "'<html><body>' ||\r\n'<span style=\"color:black;\">' || \"pole_number\" || '</span>' ||\r\nCASE \r\n  WHEN \"line_angle\" = 'deadend' THEN ''\r\n  ELSE ' | ' || '<span style=\"color:black;\">' || \"line_angle\" || '</span>'\r\nEND ||\r\n'</body></html>'",
+            "group": "user",
+            "name": "pole_label.html",
+            "type": "expression"
+        },
+        {
+            "description": "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n<html><head><style type=\"text/css\">\np, li { white-space: pre-wrap; }\n</style></head><body style=\" font-family:'MS Shell Dlg 2'; font-size:7.8pt; font-weight:400; font-style:normal;\">\n<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>",
+            "expression": "round(attribute(get_feature('lv_lines', 'back_span_pole', pole_number), 'span_length'), 1)",
+            "group": "user",
+            "name": "round(attribute(get_feature('lv_lines', 'back_span_pole', pole_number), 'span_length'), 1)",
+            "type": "expression"
+        },
+        {
+            "description": "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n<html><head><style type=\"text/css\">\np, li { white-space: pre-wrap; }\n</style></head><body style=\" font-family:'MS Shell Dlg 2'; font-size:7.8pt; font-weight:400; font-style:normal;\">\n<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>",
+            "expression": "to_string(round(span_length, 1)) + 'm'",
+            "group": "user",
+            "name": "span_calc",
+            "type": "expression"
+        },
+        {
+            "description": "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n<html><head><style type=\"text/css\">\np, li { white-space: pre-wrap; }\n</style></head><body style=\" font-family:'MS Shell Dlg 2'; font-size:7.8pt; font-weight:400; font-style:normal;\">\n<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>",
+            "expression": "to_string(round(span_length, 1)) + 'm'",
+            "group": "user",
+            "name": "span_text",
+            "type": "expression"
+        }
+    ],
+    "qgis_version": "3.22.3-Białowieża"
+}
