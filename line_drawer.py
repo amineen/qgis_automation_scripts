@@ -5,7 +5,7 @@ from qgis.core import (QgsCoordinateReferenceSystem, QgsCoordinateTransform, Qgs
 from PyQt5.QtCore import QVariant
 
 
-def calculate_points_distance(totalDistance: float, min_distance=30, max_distance=54.9):
+def calculate_points_distance(totalDistance: float, min_distance, max_distance):
 
     if totalDistance < max_distance:
         # If totalDistance is less than min_distance,
@@ -125,10 +125,10 @@ for index, feature in enumerate(features):
 
     if control_pole.startswith('SCP'):
         number_of_poles, distance = calculate_points_distance(
-            totalDistance, 40, 56.9)
+            totalDistance, 40, 62.9)
     else:
         number_of_poles, distance = calculate_points_distance(
-            totalDistance, 25, 41.9)
+            totalDistance, 40, 58.5)
 
     d = distance
 
