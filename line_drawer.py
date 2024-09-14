@@ -26,14 +26,14 @@ def calculate_points_distance(totalDistance: float, min_distance, max_distance):
     return number_of_points, distance_between_points
 
 
-pointLayer = QgsProject.instance().mapLayersByName('ntatumbila_cp_8m')[0]
+pointLayer = QgsProject.instance().mapLayersByName('control_poles')[0]
 
 newPointLayer = QgsVectorLayer(
-    'Point?crs=EPSG:4326', 'new_pole_points_ntbl', 'memory')
+    'Point?crs=EPSG:4326', 'new_pole_points_aml', 'memory')
 
 # create a memory layer to store lines
 line_layer = QgsVectorLayer(
-    "LineString?crs=epsg:4326", "line_layer_ntbl", "memory")
+    "LineString?crs=epsg:4326", "line_layer_aml", "memory")
 line_layer_dp = line_layer.dataProvider()
 point_layer_dp = newPointLayer.dataProvider()
 fields = QgsFields()
@@ -121,14 +121,15 @@ for index, feature in enumerate(features):
     totalDistance = distanceArea.measureLine(
         feature.geometry().asPoint(), connecting_cp.geometry().asPoint())
 
-    # if control_pole start with SCP, pass 40 and 54.9 as min and max distance respectively else pass 25 and 40.9
-
-    if control_pole.startswith('SCP'):
+    if control_pole.startswith('CP_13'):
         number_of_poles, distance = calculate_points_distance(
-            totalDistance, 40, 62.9)
+            totalDistance, 122, 125)
+    elif totalDistance > 110 and totalDistance <= 116:
+        number_of_poles, distance = calculate_points_distance(
+            totalDistance, 110, 116)
     else:
         number_of_poles, distance = calculate_points_distance(
-            totalDistance, 40, 58.5)
+            totalDistance, 100, 110)
 
     d = distance
 
@@ -217,3 +218,37 @@ QgsProject.instance().addMapLayer(newPointLayer)
 
 # Add the new line layer to the map
 QgsProject.instance().addMapLayer(line_layer)
+
+# array_first(
+#     aggregate(
+#         layer:='mv_lines_takadeh',
+#         aggregate:='array_agg',
+#         expression:="back_span",
+#         filter:="pole_number" = attribute(@parent, 'pole_number')
+#     )
+# )
+
+# '<html><body>' ||
+# '<span style="color:blue;">' || "pole_number" || '</span>' ||
+# CASE
+#   WHEN "line_angle" = 'deadend' THEN ''
+#   ELSE ' | ' || "line_angle"
+# END ||
+# '</body></html>'
+
+# CASE
+# 	WHEN "angle" IS NULL THEN 'ZC7'
+# 	WHEN "angle" >= 0 AND "angle" <=5 THEN 'ZC1'
+# 	WHEN "angle" >5 AND "angle" <=20 THEN 'ZC2'
+# 	WHEN "angle" > 20 AND "angle" <=60 THEN 'ZC3'
+# END
+
+
+# '<html><body>' ||
+# '<span style="color:blue;">' || "pole_number" || '</span>' ||
+# CASE
+#   WHEN "line_angle" IS NULL OR  "line_angle" = 'deadend' THEN ''
+#   ELSE ' | ' ||
+#   '<span style="color:orange;">' || "line_angle" || '</span>'
+# END ||
+# '</body></html>'
