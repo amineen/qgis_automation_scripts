@@ -252,3 +252,16 @@ QgsProject.instance().addMapLayer(line_layer)
 #   '<span style="color:orange;">' || "line_angle" || '</span>'
 # END ||
 # '</body></html>'
+
+# CASE
+# 	WHEN "angle" < 15 THEN "pole_top_structure"
+# 	WHEN "angle" >= 15 AND "angle" <40 THEN 'H-FRAME'
+# 	WHEN "angle" >=40 THEN '3-member pole'
+# END
+
+# CASE
+# 	WHEN "line_angle" IS NULL THEN
+# 	"pole_number"
+# 	WHEN "line_angle" IS NOT NULL THEN "pole_number" + ' ~ ' + "line_angle"
+
+# END
