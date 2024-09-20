@@ -265,3 +265,12 @@ QgsProject.instance().addMapLayer(line_layer)
 # 	WHEN "line_angle" IS NOT NULL THEN "pole_number" + ' ~ ' + "line_angle"
 
 # END
+
+# CASE
+#     WHEN line_angle IS NULL THEN 0
+#     WHEN line_angle IS NOT NULL THEN
+#         CASE
+#             WHEN regexp_substr("line_angle", '[0-9]+') = '' THEN 0
+#             ELSE to_int(regexp_substr("line_angle", '[0-9]+'))
+#         END
+# END

@@ -4,7 +4,7 @@ from qgis.PyQt.QtCore import QVariant
 from math import degrees
 
 
-layer_name = 'mv_lines_takadeh'
+layer_name = 'mv_lines_buchanna'
 angle_field_name = 'line_angle'
 layer = QgsProject.instance().mapLayersByName(layer_name)[0]
 
