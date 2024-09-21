@@ -232,7 +232,7 @@ QgsProject.instance().addMapLayer(line_layer)
 # '<span style="color:blue;">' || "pole_number" || '</span>' ||
 # CASE
 #   WHEN "line_angle" = 'deadend' THEN ''
-#   ELSE ' | ' || "line_angle"
+#   ELSE ' ~ ' || "line_angle"
 # END ||
 # '</body></html>'
 
